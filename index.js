@@ -58,4 +58,4 @@ res.json({ eliminado: !!borrado });
 const PORT = process.env.PORT || 3000;
 app.listen(process.env.PORT || 3000, () => console.log('API lista en http://localhost:3000'));
 
-
+await sequelize.sync({ alt: true }); // Usaremos 'alt: true' que es más suave en producción que force
