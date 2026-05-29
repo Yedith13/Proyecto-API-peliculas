@@ -58,6 +58,4 @@ res.json({ eliminado: !!borrado });
 const PORT = process.env.PORT || 3000;
 app.listen(process.env.PORT || 3000, () => console.log('API lista en http://localhost:3000'));
 
-// Déjalo así en tu GitHub por un momento:
-await sequelize.sync({ force: true }); 
-console.log('💾 Modelos sincronizados con la base de datos.');await sequelize.sync({ force: true });
+await sequelize.sync({ force: true }); // <-- Ponlo con "force: true" para que cree la tabla en Render
