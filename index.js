@@ -19,14 +19,31 @@ app.get('/peliculas', async (req, res) => {
 const peliculas = await pelicula.findAll();
 res.json(peliculas);
 });
+
 app.get('/peliculas/:id', async (req, res) => {
 const peliculas = await pelicula.findByPk(req.params.id);
 peliculas ? res.json(peliculas) : res.status(404).json({ error: 'No encontrado' });
 });
+
 app.post('/pelicula', async (req, res) => {
 const nuevaspeliculas = await pelicula.create(req.body);
 res.status(201).json(nuevaspeliculas);
 });
+
+app.put('/peliculas/:id', async (req, res) => {
+const peliculas = await pelicula.findByPk(req.params.id);
+if (peliculas) {
+await pelicula.update(req.body);
+res.json(peliculas);
+} else {
+res.status(404).json({ error: 'No encontrado' });
+}
+});
+app.delete('/peliculas/:id', async (req, res) => {
+const borrado = await pelicula.destroy({ where: { id: req.params.id } });
+res.json({ eliminado: !!borrado });
+});
+
 // Captura dinámica del puerto de Render
 const PORT = process.env.PORT || 3000;
 app.listen(process.env.PORT || 3000, () => console.log('API lista en http://localhost:3000'));
