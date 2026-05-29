@@ -31,14 +31,24 @@ res.status(201).json(nuevaspeliculas);
 });
 
 app.put('/peliculas/:id', async (req, res) => {
-const peliculas = await pelicula.findByPk(req.params.id);
-if (peliculas) {
-await pelicula.update(req.body);
-res.json(peliculas);
-} else {
-res.status(404).json({ error: 'No encontrado' });
-}
+  try {
+    // Buscamos la película por el ID que viene en la URL
+    const peliEncontrada = await pelicula.findByPk(req.params.id);
+
+    if (peliEncontrada) {
+      // Actualizamos directamente la película que encontramos usando los datos del body
+      await peliEncontrada.update(req.body);
+      
+      // Devolvemos la película con sus datos ya modificados
+      res.json(peliEncontrada);
+    } else {
+      res.status(404).json({ error: 'Película no encontrada' });
+    }
+  } catch (error) {
+    res.status(400).json({ error: 'Error al actualizar la película', detalle: error.message });
+  }
 });
+
 app.delete('/peliculas/:id', async (req, res) => {
 const borrado = await pelicula.destroy({ where: { id: req.params.id } });
 res.json({ eliminado: !!borrado });
