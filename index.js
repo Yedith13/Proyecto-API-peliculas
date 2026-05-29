@@ -1,6 +1,6 @@
 import express from 'express';
 import sequelize  from './database.js';
-import pelicula from './node_modules/pelicula.js';
+import pelicula from './pelicula.js';
 
 const app = express();
 app.use(express.json());
@@ -16,17 +16,17 @@ console.error('Error al inicializar la base de datos:', error);
 
 // --- ENDPOINTS SOLICITADOS ---
 app.get('/peliculas', async (req, res) => {
-const pelicula = await pelicula.findAll();
-res.json(pelicula);
+const peliculas = await pelicula.findAll();
+res.json(peliculas);
 });
 app.get('/peliculas/:id', async (req, res) => {
-const venta = await pelicula.findByPk(req.params.id);
-venta ? res.json(pelicula) : res.status(404).json({ error: 'No encontrado' });
+const peliculas = await pelicula.findByPk(req.params.id);
+peliculas ? res.json(peliculas) : res.status(404).json({ error: 'No encontrado' });
 });
 app.post('/pelicula', async (req, res) => {
-const nuevapelicula = await pelicula.create(req.body);
-res.status(201).json(nuevapelicula);
+const nuevaspeliculas = await pelicula.create(req.body);
+res.status(201).json(nuevaspeliculas);
 });
 // Captura dinámica del puerto de Render
 const PORT = process.env.PORT || 3000;
-app.listen(process.env.PORT | 3001, () => console.log('API lista en http://localhost:3000'));
+app.listen(process.env.PORT | 3000, () => console.log('API lista en http://localhost:3000'));
